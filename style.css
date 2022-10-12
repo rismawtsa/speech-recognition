@@ -1,0 +1,75 @@
+body {
+  width: 80%;
+  margin: auto;
+}
+h4 {
+  text-align: center;
+}
+button {
+  border: none;
+  background: none;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.content {
+  border-radius: 5px;
+  padding: 0.5rem;
+  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 37%);
+}
+
+.transcript {
+  min-height: 10rem;
+  margin-bottom: 0.5rem;
+}
+.transcript textarea {
+  width: 100%;
+  min-height: inherit;
+  border: none;
+}
+
+#start {
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 3px;
+  border-radius: 50%;
+}
+
+#start:hover {
+  background-color: rgb(167, 188, 217);
+}
+
+#start img {
+  width: 100%;
+}
+
+#stop {
+  display: none;
+  width: 3rem;
+  height: 3rem;
+}
+
+#stop img {
+  width: 100%;
+}
+
+.download {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+#script,
+#audio {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+#script {
+  background-color: #00bcd4;
+}
+
+#audio {
+  background-color: #03a9f4;
+}

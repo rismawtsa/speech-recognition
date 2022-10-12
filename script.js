@@ -6,12 +6,21 @@ if ("webkitSpeechRecognition" in window) {
   speechRecognition.interimResults = true;
   speechRecognition.lang = "en-US";
 
-  document.querySelector("#start").onclick = () => {
+  const start = document.getElementById("start");
+  const stop = document.getElementById("stop");
+
+  start.onclick = () => {
+    start.style.display = "none";
+    stop.style.display = "block";
+
     speechRecognition.start();
   };
 
-  document.querySelector("#stop").onclick = () => {
+  stop.onclick = () => {
     speechRecognition.stop();
+
+    start.style.display = "block";
+    stop.style.display = "none";
   };
 
   speechRecognition.onstart = () => {

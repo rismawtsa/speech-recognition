@@ -4,19 +4,24 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Speech To Text</title>
+    <title>Speech Recognition</title>
+    <link href="./style.css" rel="stylesheet" />
   </head>
   <body>
-    <section>
-      <h4>Transcript</h4>
-      <div>
-        <span id="final"></span>
+    <h4>Speech Recognition</h4>
+    <section class="content">
+      <div class="transcript">
+        <textarea id="final"></textarea>
         <span id="interim"></span>
       </div>
+      <div class="mic">
+        <button id="start"><img src="./images/microphone-48.png" /></button>
+        <button id="stop"><img src="./images/stop-48.png" /></button>
+      </div>
     </section>
-    <section>
-      <button id="start">start</button>
-      <button id="stop">stop</button>
+    <section class="download">
+      <button id="script">Download Script</button>
+      <button id="audio">Download Audio</button>
     </section>
     <script src="./script.js"></script>
   </body>
