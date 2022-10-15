@@ -4,14 +4,22 @@ if ("webkitSpeechRecognition" in window) {
 
   speechRecognition.continuous = true;
   speechRecognition.interimResults = true;
-  speechRecognition.lang = "en-US";
+  speechRecognition.lang = "en";
 
+  const lang = document.getElementById("selectLang");
   const start = document.getElementById("start");
   const stop = document.getElementById("stop");
+  const close = document.getElementById("close");
+  const copy = document.getElementById("copy");
+  const text = document.getElementById("text");
+
+  lang.onchange = (event) => {
+    speechRecognition.lang = event.target.value;
+  };
 
   start.onclick = () => {
     start.style.display = "none";
-    stop.style.display = "block";
+    stop.style.display = "inline";
 
     speechRecognition.start();
   };
@@ -19,8 +27,31 @@ if ("webkitSpeechRecognition" in window) {
   stop.onclick = () => {
     speechRecognition.stop();
 
-    start.style.display = "block";
+    start.style.display = "inline";
     stop.style.display = "none";
+    stop.classList.remove("animated");
+  };
+
+  close.onclick = () => {
+    finalTranscript = "";
+    text.value = "";
+
+    speechRecognition.stop();
+    close.style.display = "none";
+    stop.style.display = "none";
+    copy.style.display = "none";
+    start.style.display = "inline";
+    stop.classList.remove("animated");
+  };
+
+  copy.onclick = () => {
+    text.select();
+    navigator.clipboard.writeText(text.value);
+  };
+
+  text.oninput = () => {
+    close.style.display = "inline";
+    copy.style.display = "inline";
   };
 
   speechRecognition.onstart = () => {
@@ -32,6 +63,7 @@ if ("webkitSpeechRecognition" in window) {
   };
 
   speechRecognition.onresult = (event) => {
+    stop.classList.add("animated");
     let interimTranscript = "";
 
     for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -42,10 +74,9 @@ if ("webkitSpeechRecognition" in window) {
       }
     }
 
-    console.log({ finalTranscript, interimTranscript });
-
-    document.querySelector("#final").innerHTML = finalTranscript;
-    document.querySelector("#interim").innerHTML = interimTranscript;
+    text.value = finalTranscript + interimTranscript;
+    copy.style.display = "inline";
+    close.style.display = "inline";
   };
 
   speechRecognition.onerror = (event) => {

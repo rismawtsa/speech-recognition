@@ -8,21 +8,30 @@
     <link href="./style.css" rel="stylesheet" />
   </head>
   <body>
-    <h4>Speech Recognition</h4>
+    <h4>Speech to Text</h4>
+    <select id="selectLang">
+      <option value="en">English</option>
+      <option value="id">Indonesian</option>
+    </select>
     <section class="content">
       <div class="transcript">
-        <textarea id="final"></textarea>
-        <span id="interim"></span>
+        <button id="close">
+          <img src="./images/close-64.png" alt="close" />
+        </button>
+        <textarea id="text" rows="1"></textarea>
       </div>
       <div class="mic">
         <button id="start"><img src="./images/microphone-48.png" /></button>
-        <button id="stop"><img src="./images/stop-48.png" /></button>
+        <!--TODO polish the stop animation-->
+        <button id="stop"></button>
+        <button id="copy"><img src="./images/copy-64.png" /></button>
       </div>
     </section>
+    <!-- TODO script and audio can be downloaded
     <section class="download">
       <button id="script">Download Script</button>
       <button id="audio">Download Audio</button>
-    </section>
+    </section> -->
     <script src="./script.js"></script>
   </body>
 </html>
