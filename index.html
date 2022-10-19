@@ -4,10 +4,25 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./images/favicon.ico"
+    />
+
     <title>Speech Recognition</title>
-    <link href="./style.css" rel="stylesheet" />
+    <link href="./styles/style.css" rel="stylesheet" />
   </head>
   <body>
+    <div class="nav">
+      <a
+        href="https://github.com/rismawtsa/speech-recognition"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Github</a
+      >
+    </div>
     <h4>Speech to Text</h4>
     <select id="selectLang">
       <option value="en">English</option>
@@ -20,18 +35,16 @@
         </button>
         <textarea id="text" rows="1"></textarea>
       </div>
-      <div class="mic">
-        <button id="start"><img src="./images/microphone-48.png" /></button>
-        <!--TODO polish the stop animation-->
-        <button id="stop"></button>
-        <button id="copy"><img src="./images/copy-64.png" /></button>
+      <div class="main-controls">
+        <div class="left">
+          <button id="start"><img src="./images/microphone-48.png" /></button>
+          <button id="stop"></button>
+        </div>
+        <div class="right">
+          <button id="copy"><img src="./images/copy-64.png" /></button>
+        </div>
       </div>
     </section>
-    <!-- TODO script and audio can be downloaded
-    <section class="download">
-      <button id="script">Download Script</button>
-      <button id="audio">Download Audio</button>
-    </section> -->
-    <script src="./script.js"></script>
+    <script type="module" src="./scripts/app.js"></script>
   </body>
 </html>
