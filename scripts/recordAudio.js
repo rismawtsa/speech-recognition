@@ -1,8 +1,8 @@
-const recordAudio = () => {
+const recordAudio = (chunks) => {
   return new Promise((resolve) => {
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       const mediaRecorder = new MediaRecorder(stream);
-      const audioChunks = [];
+      const audioChunks = [...chunks];
 
       mediaRecorder.addEventListener("dataavailable", (event) => {
         audioChunks.push(event.data);
@@ -24,7 +24,7 @@ const recordAudio = () => {
               audio.play();
             };
 
-            resolve({ audioBlob, audioUrl, play });
+            resolve({ audioBlob, audioUrl, play, audioChunks });
           });
 
           mediaRecorder.stop();

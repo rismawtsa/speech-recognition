@@ -13,6 +13,8 @@ if ("webkitSpeechRecognition" in window) {
   let finalTranscript = "";
   let recorder = null;
   let audio = null;
+  let audioElement;
+  let audioChunks = [];
 
   speechRecognition.continuous = true;
   speechRecognition.interimResults = true;
@@ -25,9 +27,10 @@ if ("webkitSpeechRecognition" in window) {
   start.onclick = async () => {
     start.style.display = "none";
     stop.style.display = "inline";
+    if (finalTranscript) finalTranscript += " ";
 
     try {
-      recorder = await recordAudio();
+      recorder = await recordAudio(audioChunks);
       recorder.start();
       speechRecognition.start();
     } catch (error) {
@@ -40,9 +43,16 @@ if ("webkitSpeechRecognition" in window) {
 
   stop.onclick = async () => {
     audio = await recorder.stop();
-    bottomRightContainer.insertBefore(audioControl(audio.audioUrl), copy);
+
+    audioChunks = audio.audioChunks;
+    if (audioElement) {
+      document.querySelector(".audio").remove();
+    }
+
     speechRecognition.stop();
     recorder.stream.getAudioTracks()[0].stop();
+    bottomRightContainer.insertBefore(audioControl(audio.audioUrl), copy);
+    audioElement = true;
 
     start.style.display = "inline";
     stop.style.display = "none";
@@ -77,10 +87,6 @@ if ("webkitSpeechRecognition" in window) {
     console.log("start");
   };
 
-  speechRecognition.onend = () => {
-    console.log("end");
-  };
-
   speechRecognition.onresult = (event) => {
     stop.classList.add("animated");
     let interimTranscript = "";
@@ -96,6 +102,10 @@ if ("webkitSpeechRecognition" in window) {
     text.value = finalTranscript + interimTranscript;
     copy.style.display = "inline";
     close.style.display = "inline";
+  };
+
+  speechRecognition.onend = () => {
+    console.log("end");
   };
 
   speechRecognition.onerror = (event) => {
