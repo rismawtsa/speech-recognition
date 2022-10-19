@@ -10,6 +10,8 @@ body {
 h4 {
   text-align: center;
   font-size: 20px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 button {
   border: none;
@@ -53,13 +55,13 @@ img {
   width: 2.1rem;
   display: none;
   position: absolute;
-  right: 10rem;
-  top: 11.5rem;
+  right: 1px;
 }
 
 .transcript {
   min-height: 10rem;
   margin-bottom: 0.5rem;
+  position: relative;
 }
 
 .transcript textarea {
