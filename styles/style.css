@@ -92,11 +92,13 @@ img {
   width: 2rem;
 }
 
-#copy {
+#copy,
+#voice {
   width: 1.75rem;
 }
 
-#copy {
+#copy,
+#voice {
   display: none;
 }
 
@@ -145,6 +147,7 @@ img {
   animation-delay: 1s;
   animation: 1600ms pulsate infinite alternate ease-in-out;
 }
+
 @keyframes pulsate {
   0% {
     transform: scale(1);
