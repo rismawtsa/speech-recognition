@@ -4,4 +4,9 @@ function calcHeight(value) {
   return newHeight;
 }
 
-export { calcHeight };
+function deleteAudioElement() {
+  const audio = document.querySelector("audio");
+  if (audio) audio.remove();
+}
+
+export { calcHeight, deleteAudioElement };

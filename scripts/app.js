@@ -1,9 +1,8 @@
 import { recordAudio, audioControl } from "./recordAudio.js";
-import { calcHeight } from "./utils.js";
+import { calcHeight, deleteAudioElement } from "./utils.js";
 
 const languangeSelect = document.querySelector("#languangeSelect");
 const textarea = document.querySelector("textarea");
-const audio = document.querySelector(".audio");
 const mainControlsRight = document.querySelector(".main-controls-right");
 const start = document.getElementById("start");
 const voice = document.getElementById("voice");
@@ -48,7 +47,7 @@ stop.onclick = async () => {
   const audioObj = await recorder.stop();
 
   audioChunks = audioObj.audioChunks;
-  if (audio) audio.remove();
+  deleteAudioElement();
 
   speechRecognition.stop();
   recorder.stream.getAudioTracks()[0].stop();
@@ -67,7 +66,7 @@ close.onclick = () => {
 
   speechRecognition.stop();
 
-  if (audio) audio.remove();
+  deleteAudioElement();
   close.style.display = "none";
   stop.style.display = "none";
   copy.style.display = "none";
