@@ -24,9 +24,9 @@
       >
     </div>
     <h4>Speech to Text</h4>
-    <select id="selectLang">
-      <option value="en">English</option>
-      <option value="id">Indonesian</option>
+    <select id="languangeSelect">
+      <option value="en" data-name="Google US English">English</option>
+      <option value="id" data-name="Google Bahasa Indonesia">Indonesian</option>
     </select>
     <section class="content">
       <div class="transcript">
@@ -36,12 +36,12 @@
         <textarea id="text" rows="1"></textarea>
       </div>
       <div class="main-controls">
-        <div class="left">
+        <div class="main-controls-left">
           <button id="start"><img src="./images/microphone-48.png" /></button>
           <button id="stop"></button>
           <button id="voice"><img src="./images/voice-50.png" /></button>
         </div>
-        <div class="right">
+        <div class="main-controls-right">
           <button id="copy"><img src="./images/copy-64.png" /></button>
         </div>
       </div>

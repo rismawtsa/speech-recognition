@@ -36,7 +36,7 @@ img {
   text-decoration: none;
 }
 
-#selectLang {
+#languangeSelect {
   margin: 1rem 0;
   padding: 3px;
 }
@@ -76,10 +76,10 @@ img {
   display: flex;
   justify-content: space-between;
 }
-.main-controls .left {
+.main-controls-left {
   display: flex;
 }
-.main-controls .left button {
+.main-controls-left button {
   margin-right: 0.5rem;
 }
 
@@ -100,6 +100,11 @@ img {
 #copy,
 #voice {
   display: none;
+}
+
+#voice:disabled {
+  cursor: initial;
+  opacity: 0.6;
 }
 
 #stop {

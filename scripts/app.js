@@ -1,33 +1,35 @@
 import { recordAudio, audioControl } from "./recordAudio.js";
+import { calcHeight } from "./utils.js";
 
-const lang = document.getElementById("selectLang");
+const languangeSelect = document.querySelector("#languangeSelect");
+const textarea = document.querySelector("textarea");
+const audio = document.querySelector(".audio");
+const mainControlsRight = document.querySelector(".main-controls-right");
 const start = document.getElementById("start");
-const voice = document.querySelector("#voice");
+const voice = document.getElementById("voice");
 const stop = document.getElementById("stop");
 const close = document.getElementById("close");
 const copy = document.getElementById("copy");
-const text = document.getElementById("text");
-const bottomRightContainer = document.querySelector(".right");
 
 const synth = window.speechSynthesis;
 const speechRecognition = new webkitSpeechRecognition();
+
 let finalTranscript = "";
 let recorder = null;
-let audio = null;
-let audioElement;
 let audioChunks = [];
 
 speechRecognition.continuous = true;
 speechRecognition.interimResults = true;
 speechRecognition.lang = "en";
 
-lang.onchange = (event) => {
+languangeSelect.onchange = (event) => {
   speechRecognition.lang = event.target.value;
 };
 
 start.onclick = async () => {
   start.style.display = "none";
   stop.style.display = "inline";
+  languangeSelect.disabled = true;
   if (finalTranscript) finalTranscript += " ";
 
   try {
@@ -43,47 +45,45 @@ start.onclick = async () => {
 };
 
 stop.onclick = async () => {
-  audio = await recorder.stop();
+  const audioObj = await recorder.stop();
 
-  audioChunks = audio.audioChunks;
-  if (audioElement) {
-    document.querySelector(".audio").remove();
-  }
+  audioChunks = audioObj.audioChunks;
+  if (audio) audio.remove();
 
   speechRecognition.stop();
   recorder.stream.getAudioTracks()[0].stop();
-  bottomRightContainer.insertBefore(audioControl(audio.audioUrl), copy);
-  audioElement = true;
+  mainControlsRight.insertBefore(audioControl(audioObj.audioUrl), copy);
 
   start.style.display = "inline";
   stop.style.display = "none";
+  languangeSelect.disabled = false;
   stop.classList.remove("animated");
 };
 
 close.onclick = () => {
   finalTranscript = "";
-  text.value = "";
-  audio = null;
+  textarea.value = "";
+  audioChunks = [];
 
   speechRecognition.stop();
+
+  if (audio) audio.remove();
   close.style.display = "none";
   stop.style.display = "none";
   copy.style.display = "none";
   voice.style.display = "none";
+  languangeSelect.disabled = false;
   stop.classList.remove("animated");
-  if (audioElement) {
-    document.querySelector(".audio").remove();
-  }
-
   start.style.display = "inline";
+  textarea.style.height = "inherit";
 };
 
 copy.onclick = () => {
-  text.select();
-  navigator.clipboard.writeText(text.value);
+  textarea.select();
+  navigator.clipboard.writeText(textarea.value);
 };
 
-text.oninput = (event) => {
+textarea.oninput = (event) => {
   close.style.display = "inline";
   copy.style.display = "inline";
   if (event.target.value) {
@@ -91,17 +91,58 @@ text.oninput = (event) => {
   }
 };
 
+textarea.onkeyup = (event) => {
+  textarea.style.height = calcHeight(textarea.value) + "px";
+  if (event.target.value) {
+    voice.style.display = "inline";
+    close.style.display = "inline";
+    copy.style.display = "inline";
+  } else {
+    voice.style.display = "none";
+    close.style.display = "none";
+    copy.style.display = "none";
+  }
+};
+
 voice.onclick = () => {
-  const utterThis = new SpeechSynthesisUtterance(text.value);
-  utterThis.onend = function (event) {
+  let timeoutResumeInfinity;
+
+  function resumeInfinity() {
+    synth.pause();
+    synth.resume();
+    timeoutResumeInfinity = setTimeout(resumeInfinity, 1000);
+  }
+
+  const voices = synth.getVoices();
+  const utterThis = new SpeechSynthesisUtterance(textarea.value);
+
+  utterThis.onstart = () => {
+    resumeInfinity();
+    console.log("SpeechSynthesisUtterance.onstart");
+  };
+  utterThis.onend = () => {
     console.log("SpeechSynthesisUtterance.onend");
+    clearTimeout(timeoutResumeInfinity);
+    voice.disabled = false;
   };
 
-  utterThis.onerror = function (event) {
+  utterThis.onerror = (event) => {
     console.error("SpeechSynthesisUtterance.onerror", { error: event.error });
   };
 
+  const selectedOption =
+    languangeSelect.selectedOptions[0].getAttribute("data-name");
+  for (let i = 0; i < voices.length; i++) {
+    if (voices[i].name === selectedOption) {
+      utterThis.voice = voices[i];
+    }
+  }
+
+  utterThis.rate = 0.8;
+  speechSynthesis.cancel();
   synth.speak(utterThis);
+
+  voice.disabled = true;
 };
 
 speechRecognition.onstart = () => {
@@ -120,8 +161,8 @@ speechRecognition.onresult = (event) => {
     }
   }
 
-  text.value = finalTranscript + interimTranscript;
-  text.focus();
+  textarea.value = finalTranscript + interimTranscript;
+  textarea.focus();
   voice.style.display = "inline";
   copy.style.display = "inline";
   close.style.display = "inline";
