@@ -1,15 +1,15 @@
 * {
   font-size: 15px;
-  font-family: monospace;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 body {
   width: 80%;
-  margin: 1rem auto;
+  margin: 5px auto;
 }
-h4 {
+h3 {
   text-align: center;
-  font-size: 20px;
+  font-size: 17px;
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -31,9 +31,14 @@ img {
 
 .nav {
   text-align: right;
+  display: flex;
+  justify-content: flex-end;
 }
 .nav a {
   text-decoration: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
 }
 
 #languangeSelect {
@@ -55,7 +60,8 @@ img {
   width: 2.1rem;
   display: none;
   position: absolute;
-  right: 1px;
+  right: -5px;
+  top: -10px;
 }
 
 .transcript {
@@ -65,11 +71,12 @@ img {
 }
 
 .transcript textarea {
-  width: 100%;
+  width: 97%;
   min-height: inherit;
   border: none;
   resize: none;
   outline: none;
+  line-height: 1.6;
 }
 
 .main-controls {

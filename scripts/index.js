@@ -65,6 +65,7 @@ close.onclick = () => {
   audioChunks = [];
 
   speechRecognition.stop();
+  speechSynthesis.cancel();
 
   deleteAudioElement();
   close.style.display = "none";
